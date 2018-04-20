@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Previous Searches</h1>
+<ul>
+{% for s in searches %}
+
+<li>{{ s }}</li><br>
+
+{% if not searches %}
+<h1>No searches to show.</h1>
+{% endif %}
+
+{% endfor %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<h3> {{ message }} </h3>
+{% endfor %}
+</div>
+
+
+{% endblock %}

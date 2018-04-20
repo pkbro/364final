@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Publishers of Saved Recipes</h1>
+<ul>
+{% for p in publishers %}
+{% if p is sequence %}
+<li>Publisher: {{ p[0] }}, Link: {{ p[1] }}</li><br>
+
+{% else %}
+<li>{{ p }}</li><br><br>
+{% endif %}
+{% endfor %}
+</ul>
+
+{% if not publishers %}
+<h1>No searches to show.</h1>
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<h3> {{ message }} </h3>
+{% endfor %}
+</div>
+
+
+{% endblock %}

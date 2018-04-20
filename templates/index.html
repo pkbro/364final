@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if current_user.is_authenticated %}
+    <a href="{{ url_for('logout') }}">Sign Out {{current_user.username}}</a>
+
+{% else %}
+    <a href="{{ url_for('login') }}">Sign In</a>
+    <h2> Your personal recipe search application </h2>
+{% endif %}
+
+<form method="POST">
+	{{ form.hidden_tag() }}
+	{{ form.word_search.label }} {{ form.word_search() }}
+	{{ form.submit() }}
+</form>
+
+<div>
+{% for message in get_flashed_messages() %}
+<h3>*** {{ message }} ***</h3>
+{% endfor %}
+</div>
+
+{% endblock %}

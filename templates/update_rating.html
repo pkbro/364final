@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>{{ rec.title }}</h3>
+<form method="POST">
+  {{ form.hidden_tag() }}
+  {{ form.rating.label() }}{{ form.rating() }}
+  {{ form.submit() }}
+</form>
+
+<div>
+{% for message in get_flashed_messages() %}
+<strong>*** {{ message }} ***</strong>
+{% endfor %}
+</div>
+
+{% endblock %}

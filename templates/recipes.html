@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h4>Current user id: {{ c }}</h4>
+<ul>
+{% for r in recipes %}
+{% if r is sequence %}
+<img src="{{ r[-2] }}"/>
+<li><b>Recipe: </b><i>{{ r[0] }}</i> --- <b>Publisher: </b>{{ r[1] }} --- <b>Link to publisher:</b> {{ r[2] }} --- <b>Rating:</b> {{ r[3] }}</li><br>
+
+<form action="/delete/{{ r[-1] }}" method="POST">
+          {{ form.delete() }}
+</form>
+{% else %}
+<li>{{ r }}</li><br><br>
+{% endif %}
+{% endfor %}
+</ul>
+
+{% if not recipes %}
+<h1>No recipes to show.</h1>
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<h3> {{ message }} </h3>
+{% endfor %}
+</div>
+
+
+{% endblock %}

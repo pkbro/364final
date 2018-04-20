@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<ul>
+{% for r in recipes %}
+{% if r is sequence %}
+
+<li><b>Recipe: </b><i>{{ r[0] }}</i> --- Publisher:{{ r[1] }} --- Rating: {{ r[3] }}</li><br>
+
+<form action="/update/{{ r[-1] }}" method="POST">
+      {{ form.submit() }}
+</form>
+{% else %}
+<li>{{ r }}</li><br><br>
+{% endif %}
+{% endfor %}
+</ul>
+
+{% if not recipes %}
+<h1>No recipes to show.</h1>
+{% endif %}
+
+<div>
+{% for message in get_flashed_messages() %}
+<h3> {{ message }} </h3>
+{% endfor %}
+</div>
+
+
+{% endblock %}
