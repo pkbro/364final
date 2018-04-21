@@ -36,7 +36,7 @@ login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 
-search_recipes = db.Table('search_recipes', db.Column('recipe_id', db.Integer, db.ForeignKey('recipe_table.id')), db.Column('search_id',db.Integer, db.ForeignKey('search_words.id')))
+search_recipes = db.Table('search_recipes', db.Column('recipe_id1', db.Integer, db.ForeignKey('recipe_table.id')), db.Column('search_id1',db.Integer, db.ForeignKey('search_words.search_id')))
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -63,7 +63,7 @@ def load_user(user_id):
 
 class Search(db.Model):
     __tablename__ = "search_words"
-    id = db.Column(db.Integer, primary_key=True)
+    search_id = db.Column(db.Integer, primary_key=True)
     word = db.Column(db.String(200))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     recipes = db.relationship('Recipe', secondary=search_recipes, backref=db.backref('search_words', lazy='dynamic'), lazy='dynamic')
@@ -77,7 +77,7 @@ class Recipe(db.Model):
     publisher_url = db.Column(db.String(250))
     rating = db.Column(db.Float)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    search_id = db.Column(db.Integer, db.ForeignKey("search_words.id"))
+    for_search_id = db.Column(db.Integer, db.ForeignKey("search_words.search_id"))
     image_id = db.Column(db.Integer, db.ForeignKey("imgs.id"))
 
 class Image(db.Model):
@@ -168,7 +168,7 @@ def get_or_create_recipe(db_session, title, publisher, rating, user_id, word_sea
     else:
         pic = get_or_create_img(db_session, img_url)
         search = get_or_create_search(db_session, word_search, user_id)
-        recipe = Recipe(title=title, publisher=publisher, rating=rating, user_id=user_id, search_id=search.id, publisher_url=publisher_url,image_id= pic.id)
+        recipe = Recipe(title=title, publisher=publisher, rating=rating, user_id=user_id, for_search_id=search.search_id, publisher_url=publisher_url,image_id= pic.id)
         db_session.add(recipe)
         db_session.commit()
         return recipe
